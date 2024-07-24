@@ -4,11 +4,17 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <Title>GeniusLyrics.NET</Title>
+        <Authors>JulioG516</Authors>
+        <Company>$(Authors)</Company>
+        <Description>A package that allows developers to interact with the Genius API. You can retrieve song information, lyrics, and album art from the Genius platform. </Description>
+        <Copyright>MIT</Copyright>
+        <RepositoryUrl>https://github.com/JulioG516/GeniusLyrics.NET</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>genius,music lyrics,lyrics-genius,genius lyrics, genius api, lyrics genius</PackageTags>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Folder Include="Utils\" />
-    </ItemGroup>
 
     <ItemGroup>
       <Compile Remove="Models\SearchSong\HitResponse.cs" />

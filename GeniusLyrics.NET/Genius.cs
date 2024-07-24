@@ -4,6 +4,9 @@ using GeniusLyrics.NET.Models.SearchSong;
 
 namespace GeniusLyrics.NET;
 
+/// <summary>
+/// Genius API client to fetch data as album art, song info and lyrics.
+/// </summary>
 public static class Genius
 {
     private static readonly string BaseUrl = "https://api.genius.com/";
@@ -37,13 +40,10 @@ public static class Genius
 
         var songResponse = JsonSerializer.Deserialize<SearchSongResponse>(jsonResponse);
 
-        if (!songResponse.Response.Hits.Any())
-        {
+        if (songResponse is null || !songResponse.Response.Hits.Any())
             return null;
-        }
 
         var songs = songResponse.Response.Hits.Select(s => s.Result).ToList();
-        var lyrics = Utils.ExtractLyrics(songs[0].Url);
         return songs;
     }
 
@@ -74,6 +74,48 @@ public static class Genius
         return song;
     }
 
+    /// <summary>
+    /// Retrieves a single song based on the song id.
+    /// </summary>
+    /// <param name="apiKey"></param>
+    /// <param name="id"></param>
+    /// <returns>A single Song object or null if not found.</returns>
+    /// <exception cref="ArgumentException">When apiKey it's empty or null or id have negative value.</exception>
+    public static async Task<Song?> GetSongById(string apiKey, ulong id)
+    {
+        if (string.IsNullOrEmpty(apiKey))
+            throw new ArgumentException("Api Key must have some value.");
+        if (id <= 0)
+            throw new ArgumentException("Id cant be negative values.");
+
+        var client = new HttpClient();
+        var request = new HttpRequestMessage
+        {
+            RequestUri = new Uri(BaseUrl + $"songs/{id}"),
+            Method = HttpMethod.Get,
+        };
+
+        request.Headers.Add("Authorization", $"Bearer {apiKey}");
+        var responseMessage = await client.SendAsync(request);
+
+        responseMessage.EnsureSuccessStatusCode();
+
+        var jsonResponse = await responseMessage.Content.ReadAsStringAsync();
+
+        var songResponse = JsonSerializer.Deserialize<SearchSongResponse>(jsonResponse);
+
+        if (songResponse is null || songResponse.Response.Song is null)
+            return null;
+
+        var song = songResponse.Response.Song;
+
+        var lyrics = await Utils.ExtractLyrics(song.Url);
+
+        song.Lyrics = lyrics;
+
+        return song;
+    }
+    
     /// <summary>
     /// Retrieves the album art URL for a given song title and artist name.
     /// </summary>

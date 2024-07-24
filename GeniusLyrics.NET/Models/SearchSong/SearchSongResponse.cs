@@ -11,7 +11,8 @@ public class SearchSongResponse
 
 public class Response
 {
-    [JsonPropertyName("hits")] public List<HitResponse> Hits { get; set; }
+    [JsonPropertyName("hits")] public List<HitResponse>? Hits { get; set; }
+    [JsonPropertyName("song")] public Song? Song { get; set; }
 }
 
 public class HitResponse
