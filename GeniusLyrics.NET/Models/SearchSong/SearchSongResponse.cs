@@ -2,20 +2,20 @@
 
 namespace GeniusLyrics.NET.Models.SearchSong;
 
-public class SearchSongResponse
+internal class SearchSongResponse
 {
     [JsonPropertyName("meta")] public MetaResponse Meta { get; set; }
 
     [JsonPropertyName("response")] public Response Response { get; set; }
 }
 
-public class Response
+internal class Response
 {
     [JsonPropertyName("hits")] public List<HitResponse>? Hits { get; set; }
     [JsonPropertyName("song")] public Song? Song { get; set; }
 }
 
-public class HitResponse
+internal class HitResponse
 {
     [JsonPropertyName("index")] public string Index { get; set; }
     [JsonPropertyName("type")] public string Type { get; set; }
