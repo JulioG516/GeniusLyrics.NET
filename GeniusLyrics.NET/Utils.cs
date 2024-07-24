@@ -58,17 +58,17 @@ public static class Utils
         return combined;
     }
 
-    public static string? ExtractLyrics(string url)
+    public static async Task<string?> ExtractLyrics(string url)
     {
         HtmlAgilityPack.HtmlWeb web = new();
 
-        var htmlDoc = web.Load(url);
-        if (htmlDoc == null)
+        var htmlDoc = await web.LoadFromWebAsync(url);
+        if (htmlDoc is null)
             return null;
-        
+
         // var nodes = htmlDoc.DocumentNode.SelectNodes("//div[class='Lyrics']");
         // if (nodes == null)
-        
+
         var nodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'Lyrics__Container')]");
 
         if (nodes == null) return null;
@@ -79,13 +79,13 @@ public static class Utils
 
             if (textOnly == null)
                 continue;
-            
+
             foreach (var textNode in textOnly)
             {
                 lyrics += HtmlEntity.DeEntitize(textNode.InnerText).Trim() + "\n";
             }
         }
-        
+
         return lyrics.Trim();
     }
 }

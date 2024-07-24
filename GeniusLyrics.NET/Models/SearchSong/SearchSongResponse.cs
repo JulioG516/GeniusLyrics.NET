@@ -4,18 +4,15 @@ namespace GeniusLyrics.NET.Models.SearchSong;
 
 public class SearchSongResponse
 {
-    [JsonPropertyName("meta")]
-    public MetaResponse Meta { get; set; }
+    [JsonPropertyName("meta")] public MetaResponse Meta { get; set; }
 
-    [JsonPropertyName("response")]
-    public Response Response { get; set; }
+    [JsonPropertyName("response")] public Response Response { get; set; }
 }
 
 public class Response
 {
-    [JsonPropertyName("hits")]
-    public List<HitResponse> Hits { get; set; }
-} 
+    [JsonPropertyName("hits")] public List<HitResponse> Hits { get; set; }
+}
 
 public class HitResponse
 {
@@ -28,16 +25,15 @@ public class HitResponse
 public class Song
 {
     //TODO: copiar todas as propriedades do return
-    
-    [JsonPropertyName("id")] 
-    public int Id { get; set; }
 
-    [JsonPropertyName("full_title")] 
-    public string FullTitle { get; set; }
+    [JsonPropertyName("id")] public int Id { get; set; }
+
+    [JsonPropertyName("full_title")] public string FullTitle { get; set; }
 
     [JsonPropertyName("song_art_image_url")]
     public string AlbumArt { get; set; }
 
-    [JsonPropertyName("url")] 
-    public string Url { get; set; }
+    [JsonPropertyName("url")] public string Url { get; set; }
+
+    [JsonPropertyName("lyrics")] public string? Lyrics { get; set; }
 }
