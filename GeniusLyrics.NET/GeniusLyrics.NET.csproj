@@ -15,4 +15,8 @@
       <Compile Remove="Models\SearchSong\Song.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
+    </ItemGroup>
+
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using GeniusLyrics.NET.Models;
+using HtmlAgilityPack;
 
 namespace GeniusLyrics.NET;
 
@@ -16,7 +17,7 @@ public static class Utils
         {
             throw new ArgumentException("API Key in the options cannot be empty.");
         }
-        
+
         if (options.Title == null)
         {
             throw new ArgumentNullException(options.Title, "Title it's missing in the options.");
@@ -26,7 +27,7 @@ public static class Utils
         {
             throw new ArgumentException("Title in the options cannot be empty.");
         }
-        
+
         if (options.Artist == null)
         {
             throw new ArgumentNullException(options.Artist, "Artist it's missing in the options.");
@@ -55,5 +56,36 @@ public static class Utils
         combined = Regex.Replace(combined, @"\s+", " ").Trim();
 
         return combined;
+    }
+
+    public static string? ExtractLyrics(string url)
+    {
+        HtmlAgilityPack.HtmlWeb web = new();
+
+        var htmlDoc = web.Load(url);
+        if (htmlDoc == null)
+            return null;
+        
+        // var nodes = htmlDoc.DocumentNode.SelectNodes("//div[class='Lyrics']");
+        // if (nodes == null)
+        
+        var nodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'Lyrics__Container')]");
+
+        if (nodes == null) return null;
+        var lyrics = "";
+        foreach (var node in nodes)
+        {
+            var textOnly = node.SelectNodes(".//text()");
+
+            if (textOnly == null)
+                continue;
+            
+            foreach (var textNode in textOnly)
+            {
+                lyrics += HtmlEntity.DeEntitize(textNode.InnerText).Trim() + "\n";
+            }
+        }
+        
+        return lyrics.Trim();
     }
 }

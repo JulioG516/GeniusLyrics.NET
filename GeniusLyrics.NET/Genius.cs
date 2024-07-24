@@ -8,18 +8,18 @@ public static class Genius
 {
     private static readonly string BaseUrl = "https://api.genius.com/";
 
-    public static async Task<List<Song>> SearchSong(Options options)
+    public static async Task<List<Song>?> SearchSong(Options options)
     {
         Utils.ValidateOptions(options);
 
-        var song = options.OptimizeQuery
+        var songQuery = options.OptimizeQuery
             ? Utils.GetTitle(options.Title!, options.Artist!)
             : $"{options.Title} {options.Artist}";
 
         var client = new HttpClient();
         var request = new HttpRequestMessage
         {
-            RequestUri = new Uri(BaseUrl + $"search?q={song}"),
+            RequestUri = new Uri(BaseUrl + $"search?q={songQuery}"),
             Method = HttpMethod.Get,
         };
 
@@ -38,6 +38,18 @@ public static class Genius
         }
 
         var songs = songResponse.Response.Hits.Select(s => s.Result).ToList();
+        var lyrics = Utils.ExtractLyrics(songs[0].Url);
         return songs;
+    }
+
+    public static async Task<Song?> GetSong(Options options)
+    {
+        Utils.ValidateOptions(options);
+
+        
+        
+        
+        
+        return null;
     }
 }
