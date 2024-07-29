@@ -25,7 +25,6 @@ internal class HitResponse
 
 public class Song
 {
-    //TODO: copiar todas as propriedades do return
 
     [JsonPropertyName("id")] public int Id { get; set; }
 
