@@ -1,5 +1,8 @@
 # GeniusLyrics.NET
 
+![NuGet Version](https://img.shields.io/nuget/v/GeniusLyrics.NET)
+
+
 a library that allows developers to interact with the Genius API. You can retrieve song information, scrape lyrics, and retrieve album art from the Genius platform. 🎶
 
 ## Usage 
